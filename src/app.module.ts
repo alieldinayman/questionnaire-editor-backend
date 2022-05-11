@@ -1,10 +1,21 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { QuestionnaireModule } from './models/questionnaire/questionnaire.module';
 
 @Module({
-    imports: [],
-    controllers: [AppController],
-    providers: [AppService],
+    imports: [
+        ConfigModule.forRoot({
+            envFilePath: ['.env.local', '.env'],
+        }),
+        MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING, {
+            connectionFactory: (connection) => {
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                connection.plugin(require('mongoose-autopopulate'));
+                return connection;
+            },
+        }),
+        QuestionnaireModule,
+    ],
 })
 export class AppModule {}
