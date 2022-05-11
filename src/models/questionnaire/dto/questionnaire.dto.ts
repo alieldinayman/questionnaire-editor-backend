@@ -5,13 +5,13 @@ import { QuestionDto } from './question.dto';
 @Exclude()
 export class QuestionnaireDto {
     @Expose()
-    title: string;
+    title = '';
 
     @Expose()
     @Type(() => QuestionDto)
-    questions: QuestionDto[];
+    questions: QuestionDto[] = [];
 
     @Expose()
     @Type(() => AnswerDto)
-    answers: AnswerDto[];
+    answers: AnswerDto[] = [];
 }

@@ -8,8 +8,8 @@ export class QuestionnaireController {
     constructor(private readonly questionnaireService: QuestionnaireService) {}
 
     @Get()
-    getFirst() {
-        return this.questionnaireService.findFirst();
+    getLatest() {
+        return this.questionnaireService.getLatest();
     }
 
     @Post()

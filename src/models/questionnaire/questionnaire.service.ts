@@ -15,27 +15,30 @@ export class QuestionnaireService {
         @InjectModel(Answer.name) private answerModel: Model<AnswerDocument>
     ) {}
 
-    async findFirst(): Promise<QuestionnaireDto> {
-        return plainToClass(
-            QuestionnaireDto,
-            await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec()
-        );
+    async getLatest(): Promise<QuestionnaireDto> {
+        const savedQuestionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
+
+        if (!savedQuestionnaire) {
+            return new QuestionnaireDto();
+        }
+
+        return plainToClass(QuestionnaireDto, savedQuestionnaire);
     }
 
     async save(questionnaireDto: QuestionnaireDto): Promise<QuestionnaireDto> {
-        const questionnaire = new Questionnaire(questionnaireDto.title);
+        const savedQuestionnaire = new Questionnaire(questionnaireDto.title);
 
         for (const questionDto of questionnaireDto.questions) {
             const newQuestion = await this.questionModel.create(questionDto);
-            questionnaire.questions.push(newQuestion);
+            savedQuestionnaire.questions.push(newQuestion);
         }
 
         for (const answerDto of questionnaireDto.answers) {
             const newAnswer = await this.answerModel.create(answerDto);
-            questionnaire.answers.push(newAnswer);
+            savedQuestionnaire.answers.push(newAnswer);
         }
 
-        await this.questionnaireModel.create(questionnaire);
+        await this.questionnaireModel.create(savedQuestionnaire);
         return questionnaireDto;
     }
 }
