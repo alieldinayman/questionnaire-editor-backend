@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-
 import { QuestionnaireDto } from './dto/questionnaire.dto';
 import { QuestionnaireService } from './questionnaire.service';
 
@@ -8,12 +7,12 @@ export class QuestionnaireController {
     constructor(private readonly questionnaireService: QuestionnaireService) {}
 
     @Get()
-    getLatest() {
-        return this.questionnaireService.getLatest();
+    fetchLatest() {
+        return this.questionnaireService.fetchLatest();
     }
 
     @Post()
     saveQuestionnaire(@Body() questionnaireDto: QuestionnaireDto) {
-        return this.questionnaireService.save(questionnaireDto);
+        return this.questionnaireService.saveQuestionnaire(questionnaireDto);
     }
 }

@@ -15,9 +15,11 @@ export class QuestionnaireService {
         @InjectModel(Answer.name) private answerModel: Model<AnswerDocument>
     ) {}
 
-    async getLatest(): Promise<QuestionnaireDto> {
+    async fetchLatest(): Promise<QuestionnaireDto> {
+        // Order by latest questionnaires in a descending fashion
         const savedQuestionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
 
+        // If no questionnaire is already saved, return a new one with default values
         if (!savedQuestionnaire) {
             return new QuestionnaireDto();
         }
@@ -25,20 +27,20 @@ export class QuestionnaireService {
         return plainToClass(QuestionnaireDto, savedQuestionnaire);
     }
 
-    async save(questionnaireDto: QuestionnaireDto): Promise<QuestionnaireDto> {
-        const savedQuestionnaire = new Questionnaire(questionnaireDto.title);
+    async saveQuestionnaire(questionnaireDto: QuestionnaireDto): Promise<QuestionnaireDto> {
+        const newQuestionnaire = new Questionnaire(questionnaireDto.title);
 
         for (const questionDto of questionnaireDto.questions) {
             const newQuestion = await this.questionModel.create(questionDto);
-            savedQuestionnaire.questions.push(newQuestion);
+            newQuestionnaire.questions.push(newQuestion);
         }
 
         for (const answerDto of questionnaireDto.answers) {
             const newAnswer = await this.answerModel.create(answerDto);
-            savedQuestionnaire.answers.push(newAnswer);
+            newQuestionnaire.answers.push(newAnswer);
         }
 
-        await this.questionnaireModel.create(savedQuestionnaire);
+        await this.questionnaireModel.create(newQuestionnaire);
         return questionnaireDto;
     }
 }
