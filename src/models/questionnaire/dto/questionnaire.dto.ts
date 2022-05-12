@@ -9,9 +9,9 @@ export class QuestionnaireDto {
 
     @Expose()
     @Type(() => QuestionDto)
-    questions: QuestionDto[] = [];
+    questions: QuestionDto[] = [new QuestionDto()];
 
     @Expose()
     @Type(() => AnswerDto)
-    answers: AnswerDto[] = [];
+    answers: AnswerDto[] = [new AnswerDto()];
 }

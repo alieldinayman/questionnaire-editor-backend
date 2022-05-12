@@ -13,8 +13,8 @@ export class Questionnaire {
         this.answers = [];
     }
 
-    @Prop({ required: true })
-    title: string;
+    @Prop()
+    title?: string;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }], autopopulate: true })
     questions: Question[];

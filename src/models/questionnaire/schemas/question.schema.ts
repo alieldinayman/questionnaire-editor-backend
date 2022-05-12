@@ -4,11 +4,11 @@ export type QuestionDocument = Question & Document;
 
 @Schema()
 export class Question {
-    @Prop({ required: true })
-    title: string;
+    @Prop()
+    title?: string;
 
     @Prop()
-    image?: Buffer;
+    image?: string;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

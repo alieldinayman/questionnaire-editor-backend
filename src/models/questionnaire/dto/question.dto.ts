@@ -3,8 +3,8 @@ import { Exclude, Expose } from 'class-transformer';
 @Exclude()
 export class QuestionDto {
     @Expose()
-    title: string;
+    title = '';
 
     @Expose()
-    image?: Buffer;
+    image?: string;
 }
