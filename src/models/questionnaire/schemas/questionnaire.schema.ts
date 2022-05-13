@@ -5,7 +5,7 @@ import { Answer } from './answer.schema';
 
 export type QuestionnaireDocument = Questionnaire & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Questionnaire {
     constructor(title: string) {
         this.title = title;
@@ -13,7 +13,7 @@ export class Questionnaire {
         this.answers = [];
     }
 
-    @Prop()
+    @Prop({ default: '' })
     title?: string;
 
     @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }], autopopulate: true })

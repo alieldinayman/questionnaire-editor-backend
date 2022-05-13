@@ -4,7 +4,7 @@ export type AnswerDocument = Answer & Document;
 
 @Schema()
 export class Answer {
-    @Prop()
+    @Prop({ default: '' })
     title?: string;
 
     @Prop()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { Model } from 'mongoose';
@@ -30,6 +30,11 @@ export class QuestionnaireService {
     }
 
     async saveQuestionnaire(questionnaireDto: QuestionnaireDto): Promise<QuestionnaireDto> {
+        // Validate the questionnaire has at least one question and one answer
+        if (!this.validateQuestionnaireHasElements(questionnaireDto)) {
+            throw new BadRequestException('Questionnaire must have at least one question and one answer');
+        }
+
         // Check if a questionnaire is already saved
         let questionnaire: Questionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
 
@@ -55,6 +60,10 @@ export class QuestionnaireService {
         // Save the questionnaire
         await this.questionnaireModel.create(questionnaire);
         return questionnaireDto;
+    }
+
+    private validateQuestionnaireHasElements(questionnaire: Questionnaire): boolean {
+        return questionnaire.questions.length >= 1 && questionnaire.answers.length >= 1;
     }
 
     private async resetQuestionnaireElements(questionnaire: Questionnaire): Promise<void> {
