@@ -17,7 +17,9 @@ export class QuestionnaireService {
 
     async fetchLatest(): Promise<QuestionnaireDto> {
         // Order by latest questionnaires in a descending fashion
-        const savedQuestionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
+        const savedQuestionnaire: Questionnaire = await this.questionnaireModel
+            .findOne({}, {}, { sort: { _id: -1 } })
+            .exec();
 
         // If no questionnaire is already saved, return a new one with default values
         if (!savedQuestionnaire) {
@@ -28,19 +30,37 @@ export class QuestionnaireService {
     }
 
     async saveQuestionnaire(questionnaireDto: QuestionnaireDto): Promise<QuestionnaireDto> {
-        const newQuestionnaire = new Questionnaire(questionnaireDto.title);
+        // Check if a questionnaire is already saved
+        let questionnaire: Questionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
 
+        // If a questionnaire is saved, update its title and reset its elements; otherwise create a new one
+        if (questionnaire) {
+            questionnaire.title = questionnaireDto.title;
+            await this.resetQuestionnaireElements(questionnaire);
+        } else {
+            questionnaire = new Questionnaire(questionnaireDto.title);
+        }
+
+        // Add the new questions and answers to the questionnaire
         for (const questionDto of questionnaireDto.questions) {
             const newQuestion = await this.questionModel.create(questionDto);
-            newQuestionnaire.questions.push(newQuestion);
+            questionnaire.questions.push(newQuestion);
         }
 
         for (const answerDto of questionnaireDto.answers) {
             const newAnswer = await this.answerModel.create(answerDto);
-            newQuestionnaire.answers.push(newAnswer);
+            questionnaire.answers.push(newAnswer);
         }
 
-        await this.questionnaireModel.create(newQuestionnaire);
+        // Save the questionnaire
+        await this.questionnaireModel.create(questionnaire);
         return questionnaireDto;
+    }
+
+    private async resetQuestionnaireElements(questionnaire: Questionnaire): Promise<void> {
+        await this.questionModel.deleteMany({ _id: { $in: questionnaire.questions } });
+        await this.answerModel.deleteMany({ _id: { $in: questionnaire.answers } });
+        questionnaire.questions = [];
+        questionnaire.answers = [];
     }
 }
