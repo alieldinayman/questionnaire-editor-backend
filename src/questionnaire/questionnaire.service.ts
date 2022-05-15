@@ -2,10 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToClass } from 'class-transformer';
 import { Model } from 'mongoose';
+import { Questionnaire, QuestionnaireDocument, Question, QuestionDocument, Answer, AnswerDocument } from './schemas';
 import { QuestionnaireDto } from './dto/questionnaire.dto';
-import { Answer, AnswerDocument } from './schemas/answer.schema';
-import { Question, QuestionDocument } from './schemas/question.schema';
-import { Questionnaire, QuestionnaireDocument } from './schemas/questionnaire.schema';
 
 @Injectable()
 export class QuestionnaireService {

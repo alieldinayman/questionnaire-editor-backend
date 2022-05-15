@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { QuestionnaireService } from './questionnaire.service';
 import { QuestionnaireController } from './questionnaire.controller';
-import { Questionnaire, QuestionnaireSchema } from './schemas/questionnaire.schema';
-import { Question, QuestionSchema } from './schemas/question.schema';
-import { Answer, AnswerSchema } from './schemas/answer.schema';
+import { Questionnaire, QuestionnaireSchema, Question, QuestionSchema, Answer, AnswerSchema } from './schemas';
 
 @Module({
     imports: [

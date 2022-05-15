@@ -1,8 +1,6 @@
 {
-    "name": "quantilope-challenge-backend",
-    "version": "0.0.1",
-    "description": "",
-    "author": "",
+    "name": "questionnaire-editor-backend",
+    "author": "Alieldin Ayman",
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
