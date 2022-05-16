@@ -1,38 +1,56 @@
-# Quantilope Coding Challenge - Backend
+# Questionnaire Editor - Backend
 
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <img src="https://user-images.githubusercontent.com/31348348/168585463-64802615-b4f3-47f2-b858-4757566d3bef.png" width="600" alt="Questionnaire Editor Logo" />
 </p>
-<p align="center">Made using NestJS</p>
 
-## Running the app
+➡ Link to the Frontend repository: **[Questionnaire Editor - Frontend](https://github.com/alieldinayman/questionnaire-editor-frontend)**
+
+## Summary
+
+A NestJS application responsible for serving the RESTful API consumed by the Frontend linked above through a MongoDB database.
+
+## Tech Stack
+
+-   [NestJS](https://nestjs.com/) - A [NodeJS](https://nodejs.org/en/) Framework
+-   [MongoDB](https://www.mongodb.com/)
+-   [Mongoose ODM](https://mongoosejs.com/)
+-   [Jest](https://jestjs.io/)
+-   [Docker](https://www.docker.com/)
+
+## Running the Backend
 
 ```bash
 # development
-$ npm run start
+pnpm run start
 
 # watch mode
-$ npm run start:dev
+pnpm run start:dev
 
 # production mode
-$ npm run start:prod
+pnpm run start:prod
 ```
 
-## Test
+## Unit Tests and Code Coverage
 
 ```bash
 # unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
+pnpm run test
 
 # test coverage
-$ npm run test:cov
+pnpm run test:cov
 ```
 
-## License
+## Dockerizing
 
-This software is meant to act as a coding challenge for **Quantilope GmbH**, and thus is not for copying, distribution, or modification and is only meant to be presented to the entity mentioned above.
+```bash
+# building the backend image
+docker build -t questionnaire-editor-backend .
 
-Please see **["No License"](https://choosealicense.com/no-permission/)** for more information.
+# starting docker-compose with the MongoDB image
+docker-compose up -d questionnaire-editor-backend
+```
+
+## Design Decisions and Better Alternatives
+
+Please read the [Design Decisions and Better Alternatives](https://github.com/alieldinayman/questionnaire-editor-frontend/blob/main/README.md#design-decisions-and-better-alternatives) section in the Frontend repository.
