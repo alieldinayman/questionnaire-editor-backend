@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  questionnaire-editor-backend:
+    container_name: questionnaire-editor-backend
+    image: questionnaire-editor-backend:latest
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    depends_on:
+      - mongodb
+    links:
+      - "mongodb:mongodb"
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:5.0.0
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    
