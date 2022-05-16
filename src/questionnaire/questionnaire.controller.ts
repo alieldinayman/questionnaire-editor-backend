@@ -7,8 +7,8 @@ export class QuestionnaireController {
     constructor(private readonly questionnaireService: QuestionnaireService) {}
 
     @Get()
-    fetchLatest(): Promise<QuestionnaireDto> {
-        return this.questionnaireService.fetchLatest();
+    getQuestionnaire(): Promise<QuestionnaireDto> {
+        return this.questionnaireService.getQuestionnaire();
     }
 
     @Post()

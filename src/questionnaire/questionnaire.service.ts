@@ -13,11 +13,9 @@ export class QuestionnaireService {
         @InjectModel(Answer.name) private answerModel: Model<AnswerDocument>
     ) {}
 
-    async fetchLatest(): Promise<QuestionnaireDto> {
+    async getQuestionnaire(): Promise<QuestionnaireDto> {
         // Order by latest questionnaires in a descending fashion
-        const savedQuestionnaire: Questionnaire = await this.questionnaireModel
-            .findOne({}, {}, { sort: { _id: -1 } })
-            .exec();
+        const savedQuestionnaire: Questionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } });
 
         // If no questionnaire is already saved, return a new one with default values
         if (!savedQuestionnaire) {
@@ -34,7 +32,7 @@ export class QuestionnaireService {
         }
 
         // Check if a questionnaire is already saved
-        let questionnaire: Questionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } }).exec();
+        let questionnaire: Questionnaire = await this.questionnaireModel.findOne({}, {}, { sort: { _id: -1 } });
 
         // If a questionnaire is saved, update its title and reset its elements; otherwise create a new one
         if (questionnaire) {
